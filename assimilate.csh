@@ -88,6 +88,14 @@ else if ($?PBS_NODEFILE) then
    echo "tasks_per_node : $NUMTASKS_PERNODE"
    echo " "
 
+   # KDR; debugging differences between 2019-09-30-21600 
+   # before and after cheyenne July down time.
+   # Mick says the old MPT, which was used to build and run the old filter,
+   # was mpt/2.21.
+   module load mpt/2.21
+   echo "Modules used for this assimilation:"
+   module list
+
 else if ($?LSB_HOSTS) then
 
    # LSF environment variables:
@@ -637,6 +645,8 @@ if ($USING_PRIOR_INFLATION == true) then
    else
       # Look for the output from the previous assimilation (or fill_inflation_restart)
       # If inflation files exists, use them as input for this assimilation
+      # TODO: This should probably look for a date, instead of relying on the files
+      #       we want being the youngest in the directory.
       echo "Gathering inflation names at " `date --rfc-3339=ns`
       (${LIST} -rt1 *.dart.rh.${scomp}_output_priorinf_mean* | tail -n 1 >! latestfile) > & /dev/null
       (${LIST} -rt1 *.dart.rh.${scomp}_output_priorinf_sd*   | tail -n 1 >> latestfile) > & /dev/null
