@@ -92,9 +92,10 @@ else if ($?PBS_NODEFILE) then
    # before and after cheyenne July down time.
    # Mick says the old MPT, which was used to build and run the old filter,
    # was mpt/2.21.
-   module load mpt/2.21
+   module swap mpt/2.21
    echo "Modules used for this assimilation:"
    module list
+   echo "-----------------------------------"
 
 else if ($?LSB_HOSTS) then
 
@@ -149,6 +150,17 @@ setenv TOTALPES                  `./xmlquery TOTALPES      --value`
 setenv CONT_RUN                  `./xmlquery CONTINUE_RUN  --value`
 setenv CHECK_TIMING              `./xmlquery CHECK_TIMING  --value`
 setenv DATA_ASSIMILATION_CYCLES  `./xmlquery DATA_ASSIMILATION_CYCLES --value`
+
+echo "============================================================="
+echo "Brian's suggestions of checks:"
+echo "which mpiexec_mpt"
+which mpiexec_mpt
+echo "mpif90 -show"
+mpif90 -show
+echo "ldd ./filter.exe"
+ldd ${EXEROOT}/filter.exe
+echo "End of module checking section"
+echo "============================================================="
 
 # Switch CESM's timer script off for the rest of the forecasts of this job.
 # The timer takes a significant amount of time, which grows by ~15 s
