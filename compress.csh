@@ -48,7 +48,7 @@ if ($#argv != 4) then
    echo '   sets   = 1 or more of {clm2 cpl cam cice hist dart} to compress, separated by spaces'
    echo '   stages = 1 or more of stages {input, preassim, postassim, output} to compress.'
    echo ' -OR-'
-   echo "   edit compress.csh ; qsub compress.csh"
+   echo "   edit submit_compress.csh ; qsub submit_compress.csh"
    exit 17
 endif
 

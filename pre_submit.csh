@@ -21,7 +21,7 @@
 # Run in $CASEROOT
 
 if ($#argv != 4) then
-   echo "Usage: submit first_date last_date cycles_per_job queue"
+   echo "Usage: ./pre_submit.csh first_date last_date cycles_per_job queue"
    echo "       first_date, last_date = YYYY-MM-DD-SSSSS"
    echo "       first_date = last_date -> assimilation only."
    echo "       cycles_per_job: The number of jobs will be calculated from the dates"
@@ -32,6 +32,10 @@ endif
 
 # Get CASE environment variables from the central variables file.
 source ./data_scripts.csh
+if ($status != 0) then
+   echo "data_scripts failed"
+   exit
+endif
 echo "data_CASEROOT    = ${data_CASEROOT}"
 echo "data_NINST       = ${data_NINST}"
 echo "data_scratch     = ${data_scratch}"
@@ -45,8 +49,8 @@ set queue          = $4
 # Check whether there are too many cesm.log files in rundir.
 set num_logs = `ls -1 ${data_scratch}/run/cesm.log* | wc -l`
 
-if ($first_date == $last_date && $num_logs > 3 || \
-    $first_date != $last_date && $num_logs > 2 ) then
+if (($first_date == $last_date && $num_logs[1] > 3) || \
+    ($first_date != $last_date && $num_logs[1] > 2) ) then
    echo "ERROR: too many cesm.log files in ${data_scratch}/run; remove the extraneous"
    exit 20
 endif
@@ -69,6 +73,7 @@ if (-f ${data_scratch}/run/rpointer.atm_0001) then
          echo "ERROR: stage_cesm_files failed."
          echo "       Check: restart_date, DOUT_S, CONTINUE_RUN, ..."
          exit 40
+      endif
    endif
 endif
 
@@ -174,7 +179,8 @@ cd ${data_CESM_python}/case
 if (-l case_run.py) then
    rm case_run.py
 else
-   echo 'ERROR: case_run.py is not a link.  Make it one'
+   echo 'ERROR: case_run.py is not a link.  Make it one.'
+   echo '       In particular; link it to case_run_only_assim.py or case-run_cam+assim.py'
    exit 100
 endif
 
@@ -182,6 +188,7 @@ echo "Comparing dates for linking"
 if ("$first_date" == "$last_date" ) then
    # Assimilation only; link an assim-only copy to the expected name
    ln -s case_run_only_assim.py case_run.py
+   
    set init_files = `wc -l ${data_scratch}/run/cam_init_files`
    echo "Checking numbers of files " $init_files[1] ${data_NINST}
    if ( $init_files[1] != ${data_NINST} ) then
@@ -192,6 +199,9 @@ else
    # Hindcast + assimilation; link the right version to the expected name.
    ln -s case_run_cam+assim.py case_run.py
 endif   
+# If case_run.py is a link that has changed, 
+# it appears that python will no longer (2021-8-27) recompile it.
+python -m py_compile case_run.py
 echo "case_run.py is linked to"
 ls -l case_run.py
 cd -

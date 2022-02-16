@@ -580,7 +580,7 @@ if ($do_obs_space == true) then
          ${data_CASE}.dart.e.cam_obs_seq_final.${yr_mo}* &
 
    # Move the obs space diagnostics to $project.
-   set obs_proj_dir = ${data_project}/esp/hist/${yr_mo}
+   set obs_proj_dir = ${data_proj_space}/esp/hist/${yr_mo}
    if (! -d $obs_proj_dir) mkdir -p $obs_proj_dir
 
    mv ${obs_space}.tgz $obs_proj_dir

@@ -92,7 +92,8 @@ else if ($?PBS_NODEFILE) then
    # before and after cheyenne July down time.
    # Mick says the old MPT, which was used to build and run the old filter,
    # was mpt/2.21.
-   module swap mpt/2.21
+   # 2021-2-9; We're using a new filter built with system defaults, so don't swap modules.
+   # module swap mpt/2.21
    echo "Modules used for this assimilation:"
    module list
    echo "-----------------------------------"
@@ -829,6 +830,7 @@ echo "`date` -- BEGIN FILTER"
 # 2 lines added for Ben to debug cycle slowing and job timing out.
 # echo "before" | logger -t raederdebug
 # ps auxfw | logger -t raederdebug
+
 
 ${LAUNCHCMD} ${EXEROOT}/filter || exit 140
 

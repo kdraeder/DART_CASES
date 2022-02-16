@@ -33,10 +33,10 @@
 # -- If not, copy and rename this script into the $CASEROOT directory.
 #    > cp  $DART_CESM_scripts/DART_config.template  $CASEROOT/DART_config
 # -- Ensure the following variables are set correctly;
-#       DARTROOT               references a valid DART directory.
-#       DART_SCRIPTS_DIR       /glade/u/home/raeder/DART/reanalysis_git/models/cam-fv/shell_scripts/cesm2_1
-#       BASEOBSDIR             /glade/p/cisl/dares/Observations/NCEP+ACARS+GPS+AIRS/Thinned_x9x10
-#       SAVE_EVERY_MTH_RESTART Monday
+#       DARTROOT                references a valid DART directory.
+#       DART_SCRIPTS_DIR   e.g. /glade/u/home/raeder/DART/reanalysis_git/models/cam-fv/shell_scripts/cesm2_1
+#       BASEOBSDIR         e.g. /glade/p/cisl/dares/Observations/NCEP+ACARS+GPS+AIRS/Thinned_x9x10
+#       SAVE_EVERY_MTH_RESTART  Monday
 # -- Examine the whole script to identify things to change for your experiments.
 #    This includes choosing [no_]assimilate.csh.
 # -- Optionally provide any initial inflation files needed by your run.

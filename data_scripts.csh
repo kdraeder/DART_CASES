@@ -7,19 +7,20 @@
 # at the end.
 
 setenv  data_NINST            80
-setenv  data_proj_space       /glade/p/nsc/ncis0006/Reanalyses
 setenv  data_DART_src         /glade/u/home/raeder/DART/reanalysis_git
-setenv  data_CASEROOT         /glade/work/raeder/Exp/f.e21.FHIST_BGC.f09_025.CAM6assim.011
 setenv  data_CASE             f.e21.FHIST_BGC.f09_025.CAM6assim.011
-setenv  data_scratch          /glade/scratch/raeder/f.e21.FHIST_BGC.f09_025.CAM6assim.011
+setenv  data_CASEROOT         /glade/work/raeder/Exp/${data_CASE}
+setenv  data_scratch          /glade/scratch/raeder/${data_CASE}
 setenv  data_campaign         /gpfs/csfs1/cisl/dares/Reanalyses
+# setenv  data_proj_space       /glade/p/nsc/ncis0006/Reanalyses
+setenv  data_proj_space       ${data_campaign}/${data_CASE}/project
 setenv  data_CESM_python      /glade/work/raeder/Models/cesm2_1_relsd_m5.6/cime/scripts/lib/CIME 
-setenv  data_DOUT_S_ROOT      /glade/scratch/raeder/f.e21.FHIST_BGC.f09_025.CAM6assim.011/archive
+setenv  data_DOUT_S_ROOT      /glade/scratch/raeder/${data_CASE}/archive
 
 setenv CONTINUE_RUN `./xmlquery CONTINUE_RUN --value`
 echo "CONTINUE_RUN = $CONTINUE_RUN"
 if ($CONTINUE_RUN == FALSE) then
-   set START_DATE = `./xmlquery RUN_START_DATE --value`
+   set START_DATE = `./xmlquery RUN_STARTDATE --value`
    set parts = `echo $START_DATE | sed -e "s#-# #"`
    @ data_year $parts[1]
    @ data_month $parts[2]
@@ -55,7 +56,7 @@ else if ($CONTINUE_RUN == TRUE) then
 
 else
    echo "env_run.xml: CONTINUE_RUN must be FALSE or TRUE (case sensitive)"
-   exit
+   exit 30
 
 endif
 
