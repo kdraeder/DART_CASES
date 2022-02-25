@@ -1,0 +1,44 @@
+These experiments were done to track down the source of the ugly difference
+between the Reanalysis and attempts to recreate it.
+The differences are characterized by strings of single points 
+that are clearly different than the surrounding points, size andor sign.
+They are strung along single lines of latitude. often +/- 20.2 and +/- 57.
+These are assimilation only tests for 2019-12-02-00000,
+which were started from the "forecast" stage at that time.
+
+We eventually determined that the Reanalysis must have been run with 
+ifort compiler options -O2 -xHost, while most of these tests used -O2 -axavx.
+Using the -xHost eliminates the latitude  strings of differences
+and reduces the size of the remaining diffs to < .001 Pa.
+This is summarized in the included powerpoint (sst+spinup.pptx).
+
+The following files were archived from /glade/scratch/raeder/Rean_SST0Z_2020  to
+/gpfs/csfs1/cisl/dares/Reanalyses/f.e21.FHIST_BGC.f09_025.CAM6assim.011/recreate_Reanalysis.tgz
+
+     2773 Feb 24 09:56 description 
+  3003359 Feb 24 12:16 sst+spinup.pptx
+ 11482696 Feb 23 14:06 bld/O2-xHost_def-envir_2022-2-23/filter
+ 11772224 Feb 22 12:42 bld/O2-axavx-fp-model-precise/filter
+ 11395384 Feb 19 20:04 bld/O2-xHost-ipo-vec-report0_mpt2.21/filter
+ 11391568 Feb 19 10:55 bld/O3-xHost-ipo-vec-report0_mpt2.21/filter
+ 12060008 Feb 19 09:49 bld/O3-axavx-ipo-vec-report0_mpt2.21/filter
+ 12045896 Feb 19 07:43 bld/O3-axavx-ipo-vec-report0/filter
+ 11466752 Feb  4 15:01 bld/Build_syst_def_modules.2022-2-4/filter
+ 10776888 Jan 25 11:33 bld/New_non-git_reanalysis/filter
+ 10793216 Jan 14 15:18 bld/f.e21.FHIST_BGC.f09_025.CAM6assim.011/filter
+ 10793216 Mar  2  2020 bld/Pre_2020-7_upgrades/filter
+ 10991168 Mar 13  2019 bld/Pre-OS_upgrade/filter
+
+ 85312304 Feb 24 06:21 O2-xHost_def-envir_2022-2-23/O2-xHost_def-envir_2022-2-23-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312612 Feb 22 13:01 O2-axavx-fp-model-precise/O2-axavx-fp-model_precise-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312596 Feb 20 06:37 O2-xHost-ipo-vec-report0_mpt2.21/O2-xHost-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312604 Feb 19 11:09 O3-xHost-ipo-vec-report0_mpt2.21/O3-xHost_mpt2.21-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312604 Feb 19 10:46 O3-axavx-ipo-vec-report0_mpt2.21/O3-axavx_mpt2.21-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312596 Feb 19 08:35 O3-axavx-ipo-vec-report0/O3-axavx-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312600 Jan 25 11:54 New_non-git_reanalysis/New_non-git-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312592 Jan 21 12:00 F.e21/F.e21-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312836 Jan 21 10:46 Pre-OS_upgrade/Pre-OS-f-First-f.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312600 Jan 20 20:06 Pre-OS_upgrade/Pre-OS_upgrade-f.e21.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312584 Jan 15 12:31 Compare_to_Rean/Rean_SST0Z-f11.dart.i.cam_output_mean.2019-12-02-00000.nc
+ 85312584 Jan 15 12:09 Wrong_infl/Rean_SST0Z-f11.dart.i.cam_output_mean.2019-12-02-00000.nc
+
