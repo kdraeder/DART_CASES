@@ -24,42 +24,44 @@ that will reflect the CESM 'CASE' name.
 |CASE       | your CESM CASE name, which is the name of the assimilation |
 |           | and the git branch. |
 |CASEROOT   | the directory in which CESM builds CASE and from which |
-|           | assimilation jobs are launched.  '<cases>/$CASE' below. |
+|           | assimilation jobs are launched.  '\<cases\>/$CASE' below. |
 |compset    | a character string which is fed to CESM and specifies |
 |           | which components will be active, data, and stub, |
 |           | and the model version to use for each component |
 
 ## Create a New CASE Under git(hub)
 
-Preliminaries
+### Preliminaries
+
 0. If you're not an employee in NSF NCAR's Data Assimilation Research Section,
-   fork https://github.com/NCAR/DART\_CASES.git to your github.
+   fork https://github.com/NCAR/DART_CASES.git to your github.
 1. In a directory where you have access to git(hub) and enough space,
    clone the DART\_CASES repository into a directory name which will contain multiple CASEs.
    In CESM this is usually called 'cases', but it's your choice.  (I chose Exp\_git).
-   > git clone git@github.com:NCAR/DART\_CASES.git ${CASE}
-2. Edit <cases>/list\_of\_files\_to\_commit.csh (or rewrite in your favorite language)
+   > git clone git@github.com:\<your_github\>/DART\_CASES.git \<your\_cases\_dir\>
+2. Edit \<cases\>/list\_of\_files\_to\_commit.csh (or rewrite in your favorite language)
    to specify which files should be under git control.  See comments in that file,
    which is an F compset (CAM) example, about how to choose them.
 
-Production
-3. In <your\_DART>/models/<your\_model>/shell\_scripts/<your\_setup\_script>
+### Production
+
+3. In \<your\_DART\>/models/\<your\_model\>/shell\_scripts/\<your\_setup\_script\>
    1. Set the CASE name for this assimilation.
       If you're reusing a git-controlled name, do the appropriate cleaning
       of the existing git branch, which might mean just
-      > git rm -r $CASE
-      > git branch -d $CASE
-   2. Specify that this case will be built in <cases>.
+      \> git rm -r $CASE
+      \> git branch -d $CASE
+   2. Specify that this case will be built in \<cases\>.
    3. add lines near the end to put CASE under git control:
-      > (cd $CASEROOT)
-      > git checkout -b ${CASE}
-      > ../list\_of\_files\_to\_commit.csh
-      > git commit -m "First commit of files in case $CASE "
-      This will create a *branch* in your <cases> clone which has the name $CASE.
+      \> (cd \$CASEROOT)
+      \> git checkout -b \${CASE}
+      \> ../list\_of\_files\_to\_commit.csh
+      \> git commit -m "First commit of files in case \$CASE "
+      This will create a *branch* in your \<cases\> clone which has the name \$CASE.
 4. Run the setup script
-   This will create a *directory* in your <cases> clone which has the name $CASE.
+   This will create a *directory* in your \<cases\> clone which has the name \$CASE.
    Follow the instructions about checking the setup.
-5. If needed, in the $CASEROOT directory, edit input.nml, \*.xml, etc.
+5. If needed, in the \$CASEROOT directory, edit input.nml, \*.xml, etc.
    to define your assimilation job correctly.
    Add, commit, and push these to the experiment git(hub) branch.
 6. Submit the job
@@ -75,7 +77,7 @@ which branch is currently checked out; there will be a directory
 which has the CASE name.
 
 
-## Put an existing CASE under git(hub) control in its own directory
+## Put an Existing CASE Under git(hub) Control in its Own Directory
 
 1.  Change the CASE directory name (made by CESM) to ${CASE}\_orig.
 2.  Clone the DART\_CASES repository into ${CASE}\_git.
@@ -89,35 +91,36 @@ which has the CASE name.
 10.  Ongoing; add, commit, and push any changes to the CASE which should be archived.
 
 
-## Tcsh example
+### Tcsh Example
 
 ```
-[step 0]% set CASE = <your\_casename>
+[step 0]% set CASE = <your_casename>
 
-[step 1]% mv ${CASE} ${CASE}\_orig
+[step 1]% mv ${CASE} ${CASE}_orig
 
-[step 2]% git clone git@github.com:NCAR/DART\_CASES.git ${CASE}_git
+[step 2]% git clone git@github.com:NCAR/DART_CASES.git ${CASE}_git
 
 [step 3]% cd ${CASE}_git
 [step 3]% mkdir ${CASE}
 [step 3]% git checkout -b ${CASE}
 
-[step 4]% rsync -av ../${CASE}\_orig/ ${CASE}
+[step 4]% rsync -av ../${CASE}_orig/ ${CASE}
 
-[step 5]% diff -r ${CASE} ../${CASE}\_orig | less
+[step 5]% diff -r ${CASE} ../${CASE}_orig | less
 
-[step 6]% chmod 644 ../${CASE}\_orig
+[step 6]% chmod 644 ../${CASE}_orig
 
 % Edit input.nml and other files to specify the assimilation.
-[step 7]% git add <files\_you\_want\_to\_archive>
-% See ./list\_of\_files\_to\_commit
+[step 7]% git add <files_you_want_to_archive>
+% See ./list_of_files_to_commit
 
 [step 8]% git commit -m "First commit of files which must be archived"
 
 [step 9]% git push -u origin ${CASE}
 ```
 
-**Wild West method:**
+## Wild West Method
+
    If the methods above aren't available to you, then hopefully you can use parts of them
    to set up your case under git control.
    There are too many degrees of freedom to describe here how to do it as a
