@@ -1,15 +1,13 @@
 
-[comment]: # ( 
-   Change 'master' to 'main' in the/your github site. 
-   [What about forks being inconsistent with NCAR/DART_CASES ?]
-   Then change it locally on all clones.
-   If you have a clone of DART_CASES and your 'origin' remote points to NCAR/DART_CASES, 
-   you can rename your master branch to main with the following commands:
-   > git branch -m master main
-   > git fetch origin
-   > git branch -u origin/main main
-   > git remote set-head origin -a
-)
+[comment]: # (Change 'master' to 'main' in the/your github site.                     )
+[comment]: # ([What about forks being inconsistent with NCAR/DART_CASES ?]           )
+[comment]: # (Then change it locally on all clones.                                  )
+[comment]: # (If you have a clone of DART_CASES and your 'origin' remote points to NCAR/DART_CASES, )
+[comment]: # (you can rename your master branch to main with the following commands: )
+[comment]: # (> git branch -m master main                                            )
+[comment]: # (> git fetch origin                                                     )
+[comment]: # (> git branch -u origin/main main                                       )
+[comment]: # (> git remote set-head origin -a                                        )
 
 # DART_CASES
 DART CASE directories from CESM+DART experiments.
@@ -29,7 +27,7 @@ of the git repository have no CASE files in it, and each experiment/case
 will be a unique branch name that will reflect the CESM 'CASE' name.
 The first strategy choice is whether you prefer to have one DART\_CASES clone
 which has all of your cases in it, 
-or a separate DART\_CASES clone with one case in each.
+or separate DART\_CASES clones with one case in each.
 Of course, you can have both, if that makes sense for your projects.
 Having multiple cases in one DART\_CASES clone means that you may need to 
 do some annoying (but wise?) tidying before switching branches to work on another case.
@@ -56,24 +54,25 @@ do some annoying (but wise?) tidying before switching branches to work on anothe
 1. In a directory where you have access to git(hub) and enough space,
    clone the DART\_CASES repository into a directory name which will contain multiple CASEs.
    In CESM this is usually called 'cases', but it's your choice.  (I chose Exp\_git).
-   > git clone git@github.com:\<your\_github\>/DART\_CASES.git \<cases\>
+   ` git clone git@github.com:\<your\_github\>/DART\_CASES.git \<cases\> `
 2. Edit \<cases\>/list\_of\_files\_to\_commit.csh (or rewrite in your favorite language)
    to specify which files should be under git control.  See comments in that file,
    which is an F compset (CAM) example, about how to choose them.
 
 ### Production
 
-3. In \<DART\>/models/\<your\_model\>/shell\_scripts/\<your\_setup\_script\>
+3. In DART/models/\<your\_model\>/shell\_scripts/\<your\_setup\_script\>
    1. Set the CASE name for this assimilation.
       If you're **re**using a git-controlled name, do the appropriate cleaning
       of the existing git branch, which might mean just
-      > git rm -r \$CASE ; git branch -d $CASE
+      ` git rm -r \$CASE ; git branch -d $CASE `
    2. Specify that this case will be built in \<cases\>.
    3. add lines near the end to put CASE under git control:
       + (cd \$CASEROOT)
       + git checkout -b \${CASE}
       + ../list\_of\_files\_to\_commit.csh
       + git commit -m "First commit of files in case \$CASE "
+
       This will create a *branch* in your \<cases\> clone which has the name \$CASE.
 4. Run the setup script
    This will create a *directory* in your \<cases\> clone which has the name \$CASE.
@@ -109,7 +108,7 @@ which has the CASE name.
 11.  Ongoing; add, commit, and push any changes to the CASE which should be archived.
 
 
-### Tcsh Example
+#### Tcsh Example
 
 ```
 [step 0]% set CASE = <your_casename>
