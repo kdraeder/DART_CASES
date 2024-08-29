@@ -10,26 +10,26 @@ Putting an existing case there is a little more complicated.
 
 The following strategies are based on making the 'main' ('master') branch
 of the git repository have no case files in it, and each experiment/case 
-will be a unique branch name that will reflect the CESM 'CASE' name.
+will be a unique branch named the same as the CESM 'CASE' name.
 The separation is made clearer by also putting each case in a subdirectory
-named after the branch.
+also named the same as the CASE.
 The most useful way to do this is to make a new git clone for each new case.
 This allows multiple cases to be active, and prevents a running job
-from one case making changes to another case.
+from one case making changes to files belonging to a different branch.
 All of these branches will be pushed to the same github repository.
-
+They should not be merged into main, in order to keep the size of the branches small,
+which allows more to fit within github's limit on free repositories.
 
 ## Terminology
 
 | Word | Meaning|
  :--------------- |:-----------------------------------------------------------------------------------------|
-|CASE       | your CESM CASE name, which is the name of the assimilation and the git branch. |
+|CASE        | your CESM CASE name, which is the name of the assimilation and the git branch |
 |DART\_CASES | your github repository for archiving assimilation setups |
 |CASE_git    | the local clone of DART\_CASES |
-|CASEROOT   | the directory in which CESM builds CASE and from which assimilation jobs are launched.  'CASE_git/CASE' below. |
-|EXP        | the directory where you want the CASE_git clones to be created. |
-|compset    | a character string which is fed to CESM and specifies which components will be active, data, and stub, and the model version to use for each component |
-|DART       | your clone of DART |
+|EXP         | the directory where you want the CASE_git clones to be created |
+|CASEROOT    | the path in which CESM builds CASE and from which assimilation jobs are launched.  'EXP/CASE_git/CASE' below |
+|DART        | your clone of DART |
 
 ## Create a New CASE Under git(hub)
 
@@ -73,12 +73,12 @@ All of these branches will be pushed to the same github repository.
    Follow the instructions about checking the setup.
 4. If needed, in the CASEROOT directory, edit input.nml, \*.xml, etc.
    to define your assimilation job correctly.
-   Add, commit, and push these to a new experiment git(hub) branch.
+   Add, commit, and push these to a new (-u) experiment git(hub) branch.
 
-   ` git push **-u** origin ${CASE} `
+   ` git push -u origin ${CASE} `
 
 5. Submit the job
-6. If git-controlled files need to be changed for future DA cycles,
+6. If git-controlled files need to be changed for future DA cycles;
    add, commit, and push them to the (correct) branch.
 
    ` git push origin ${CASE} `
@@ -114,11 +114,11 @@ Example commands follow this list of steps.
 
 [step 4]% rsync -av ../${CASE}_orig/ ${CASE}
 
-[step 5]% diff -r ${CASE} ../${CASE}_orig | less
+[step 5]% diff  -r  ../${CASE}_orig  ${CASE} | less
 
 [step 6]% chmod 644 ../${CASE}_orig
 
-[step 7]% xmlchange --caseroot full_path_new_CASEROOT
+[step 7]% xmlchange --caseroot <full_path_new_CASEROOT>
 
 [step 8]% git add <files_you_want_to_archive>
 
