@@ -9,7 +9,7 @@ Creating a CESM case setup under git control is reasonably straightforward.
 Putting an existing case there is a little more complicated.
 
 The following strategies are based on making the 'main' ('master') branch
-of the git repository have no CASE files in it, and each experiment/case 
+of the git repository have no case files in it, and each experiment/case 
 will be a unique branch name that will reflect the CESM 'CASE' name.
 The separation is made clearer by also putting each case in a subdirectory
 named after the branch.
@@ -47,16 +47,21 @@ All of these branches will be pushed to the same github repository.
    1. Set the CASE name for this assimilation.
       If you're **re**using a DART\_CASES-controlled case name, 
       clean the existing git branch, which might mean just
+
       ` git rm -r $CASE ; git branch -d $CASE `
+
    2. Specify that this case will be built in EXP/CASE\_git/CASE.
    3. Add lines like this before create\_newcase 
-      ` git clone git@github.com:\<your\_github\>/DART\_CASES.git $EXP/${CASE}_git `
-      ` git branch -a | grep $CASE`
-      ` if ($status == 0) exit` 
+
+      ``` 
+      git clone git@github.com:<your_github>/DART_CASES.git $EXP/${CASE}_git `
+      git branch -a | grep $CASE
+      if ($status == 0) exit
+      ```
    4. add lines near the end to put CASE under git control:
       + cd \$CASEROOT
       + git checkout -b \$CASE
-      + DART/\<your\_model\>/shell\_scripts/list\_of\_files\_to\_commit.csh
+      + \$DART/\<your\_model\>/shell\_scripts/list\_of\_files\_to\_commit.csh
       + git commit -m "First commit of files in case \$CASE "
 
       This will create a *branch* in your CASE_git clone which has the name \$CASE.
@@ -69,10 +74,13 @@ All of these branches will be pushed to the same github repository.
 4. If needed, in the CASEROOT directory, edit input.nml, \*.xml, etc.
    to define your assimilation job correctly.
    Add, commit, and push these to a new experiment git(hub) branch.
+
    ` git push **-u** origin ${CASE} `
+
 5. Submit the job
 6. If git-controlled files need to be changed for future DA cycles,
    add, commit, and push them to the (correct) branch.
+
    ` git push origin ${CASE} `
 
 ### Put an Existing CASE Under git(hub) Control in its Own Directory
@@ -99,7 +107,7 @@ Example commands follow this list of steps.
 
 [step 1]% mv ${CASE} ${CASE}_orig
 
-[step 2]% git clone git@github.com:${your_github}/DART_CASES.git ${CASE}_git
+[step 2]% git clone git@github.com:<your_github>/DART_CASES.git ${CASE}_git
 
 [step 3]% cd ${CASE}_git
 [step 3]% git checkout -b ${CASE}
